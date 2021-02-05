@@ -1,0 +1,5 @@
+node_modules
+.vscode
+.idea
+/node_cache
+.DS_Store

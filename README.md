@@ -13,7 +13,7 @@ $ npm i eslint --save-dev
 Next, install `eslint-plugin-ti`:
 
 ```
-$ yarn add git://github.com/thoughtindustries/eslint-plugin-ti --save-dev
+$ yarn add https://github.com/thoughtindustries/eslint-plugin-ti.git --save-dev
 ```
 
 

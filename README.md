@@ -35,14 +35,16 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
     "rules": {
-        "ti/rule-name": 2
+        "ti/add-updated-at": ["error", { "indexerPattern": "lms/**/*.js", "limitToIndexedTables": true }],
+        "ti/run-indexer": ["error", { "indexerPattern": "lms/**/*.js" }]
     }
 }
 ```
 
 ## Supported Rules
 
-* `walk` Runs through and verifies that `updatedAt` has been added where needed. Two options must be passed to the rule: `filePath` This is the path that you want to walk. `indexerPath` This is where you look for indexers.
+* `add-updated-at` Verifies that `updatedAt` has been added where needed. `indexerPattern` Required. The glob pattern to look for `*_indexer.js` files. `limitToIndexedTables`. Optional. If true this will limit the check to indexed tables.
+* `run-indexer` Verifies that the indexer has been run. E.g. `learningPaths` table should have `learningPathIndexer` run after the call to the database. `indexerPattern` Required. The glob pattern to look for `*_indexer.js` files.
 
 
 

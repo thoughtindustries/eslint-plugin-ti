@@ -10,18 +10,15 @@
   "author": "Thought Industries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha tests --recursive"
+    "test": "mocha tests --recursive --full-trace false --reporter list"
   },
   "dependencies": {
-    "acorn-walk": "^8.0.2",
-    "astring": "^1.6.2",
-    "estree-assign-parent": "^1.0.0",
     "i": "^0.3.6",
-    "minimatch": "^3.0.4",
+    "prettier": "^2.2.1",
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
-    "eslint": "^7.1.0",
+    "eslint": "^7.19.0",
     "mocha": "^7.2.0"
   },
   "engines": {

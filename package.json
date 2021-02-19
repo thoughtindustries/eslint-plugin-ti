@@ -10,7 +10,7 @@
   "author": "Thought Industries",
   "main": "lib/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive --full-trace false --reporter list"
+    "test": "NODE_ENV=test mocha tests --recursive --full-trace false --reporter list"
   },
   "dependencies": {
     "i": "^0.3.6",

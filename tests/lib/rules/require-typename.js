@@ -11,6 +11,11 @@ ruleTester.run('require-typename', rule, {
       code: 'const x = gql`query { greetings { __typename, hello } }`',
       filename: 'document.graphql',
       options
+    },
+    {
+      code: 'const x = gql`query greetings { greetingsTypes: __type(name: "Greetings") { name } }`',
+      filename: 'document.graphql',
+      options
     }
   ],
   invalid: [

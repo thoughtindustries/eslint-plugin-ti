@@ -13,7 +13,8 @@ ruleTester.run('require-typename', rule, {
       options
     },
     {
-      code: 'const x = gql`query greetings { greetingsTypes: __type(name: "Greetings") { name } }`',
+      code:
+        'const x = gql`query greetings { greetingsTypes: __type(name: "Greetings") { name, enumValues { name } } }`',
       filename: 'document.graphql',
       options
     }

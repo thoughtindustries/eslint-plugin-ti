@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-ti",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Rules specific to Thought Industries",
   "keywords": [
     "eslint",
@@ -13,13 +13,13 @@
     "test": "mocha tests --recursive --full-trace false --reporter list"
   },
   "dependencies": {
-    "i": "^0.3.6",
-    "prettier": "^2.2.1",
-    "requireindex": "~1.1.0"
+    "i": "^0.3.7",
+    "prettier": "^2.4.1",
+    "requireindex": "^1.2.0"
   },
   "devDependencies": {
-    "eslint": "^7.19.0",
-    "mocha": "^7.2.0"
+    "eslint": "^7.32.0",
+    "mocha": "^9.1.2"
   },
   "peerDependencies": {
     "graphql": "*"

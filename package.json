@@ -1,6 +1,6 @@
 {
-  "name": "eslint-plugin-ti",
-  "version": "1.0.1",
+  "name": "@thoughtindustries/eslint-plugin-ti",
+  "version": "1.1.1",
   "description": "Rules specific to Thought Industries",
   "keywords": [
     "eslint",

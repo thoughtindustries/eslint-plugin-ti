@@ -1,6 +1,6 @@
 {
   "name": "@thoughtindustries/eslint-plugin-ti",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Rules specific to Thought Industries",
   "keywords": [
     "eslint",
@@ -31,5 +31,9 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "volta": {
+    "node": "14.18.3",
+    "npm": "8.3.0"
+  }
 }

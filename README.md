@@ -36,7 +36,8 @@ Then configure the rules you want to use under the rules section.
 {
     "rules": {
         "ti/add-updated-at": ["error", { "indexerPattern": "lms/**/*.js", "limitToIndexedTables": true }],
-        "ti/run-indexer": ["error", { "indexerPattern": "lms/**/*.js" }]
+        "ti/run-indexer": ["error", { "indexerPattern": "lms/**/*.js" }],
+        "ti/use-db-layer": ["error", { "tables": ["translations"] }]
     }
 }
 ```
@@ -45,8 +46,4 @@ Then configure the rules you want to use under the rules section.
 
 * `add-updated-at` Verifies that `updatedAt` has been added where needed. `indexerPattern` Required. The glob pattern to look for `*_indexer.js` files. `limitToIndexedTables`. Optional. If true this will limit the check to indexed tables.
 * `run-indexer` Verifies that the indexer has been run. E.g. `learningPaths` table should have `learningPathIndexer` run after the call to the database. `indexerPattern` Required. The glob pattern to look for `*_indexer.js` files.
-
-
-
-
-
+* `use-db-layer` Verifies that any tables that have been updated to use the database layer are using it instead of calling the database directly.

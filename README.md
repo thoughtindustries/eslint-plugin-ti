@@ -13,7 +13,7 @@ $ npm i eslint --save-dev
 Next, install `eslint-plugin-ti`:
 
 ```
-$ yarn add https://github.com/thoughtindustries/eslint-plugin-ti.git --save-dev
+$ yarn add @thoughtindustries/eslint-plugin-ti --save-dev
 ```
 
 
@@ -35,9 +35,9 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
     "rules": {
-        "ti/add-updated-at": ["error", { "indexerPattern": "lms/**/*.js", "limitToIndexedTables": true }],
-        "ti/run-indexer": ["error", { "indexerPattern": "lms/**/*.js" }],
-        "ti/use-db-layer": ["error", { "tables": ["translations"] }]
+        "@thoughtindustries/ti/add-updated-at": ["error", { "indexerPattern": "lms/**/*.js", "limitToIndexedTables": true }],
+        "@thoughtindustries/ti/run-indexer": ["error", { "indexerPattern": "lms/**/*.js" }],
+        "@thoughtindustries/ti/use-db-layer": ["error", { "tables": ["translations"] }]
     }
 }
 ```

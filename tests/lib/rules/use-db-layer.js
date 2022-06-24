@@ -34,6 +34,20 @@ ruleTester.run('use-db-layer', rule, {
       }`,
       options,
       errors: [{ messageId: 'useDbLayer', data: { table: 'translations' } }]
+    },
+    {
+      code: `async function dbFunc() {
+        await r.translations.insert(r, { updatedAt: r.now() })
+      }`,
+      options,
+      errors: [{ messageId: 'convertRethinkdbFunctions' }]
+    },
+    {
+      code: `async function dbFunc() {
+        await r.translations.insert(r, [{ updatedAt: r.now() }])
+      }`,
+      options,
+      errors: [{ messageId: 'convertRethinkdbFunctions' }]
     }
   ]
 });

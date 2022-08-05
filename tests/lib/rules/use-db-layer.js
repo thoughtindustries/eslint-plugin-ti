@@ -80,6 +80,14 @@ ruleTester.run('use-db-layer', rule, {
       }`,
       options,
       errors: [{ messageId: 'convertRethinkdbFunctions' }]
+    },
+    {
+      code: `async function dbFunc() {
+        const item = { updatedAt: r.now() };
+        await r.translations.update(r, 'id', item)
+      }`,
+      options,
+      errors: [{ messageId: 'convertRethinkdbFunctions' }]
     }
   ]
 });

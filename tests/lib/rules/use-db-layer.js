@@ -27,69 +27,43 @@ ruleTester.run('use-db-layer', rule, {
         );
       }`,
       options,
-      errors: [{ messageId: 'useDbLayer', data: { table: 'translations' } }]
+      output: `async function dbFunc() {
+        await r['translations'].insert(r, { id: 'sso-block', bundle: uuidv5('oid', 'global-bundle') });
+      }`,
+      errors: [{ messageId: 'useDbLayer' }]
     },
     {
       code: `async function dbFunc() {
         const tableName = 'translations';
-        await r.pool.run(r.table(tableName).update({ updatedAt: r.now() }));
+        await r.pool.run(r.table(tableName).update({ updatedAt: r.now(), foo: 'bar' }));
+      }`,
+      output: `async function dbFunc() {
+        const tableName = 'translations';
+        await r[tableName].update(r, {
+          foo: 'bar'
+        });
       }`,
       options,
-      errors: [{ messageId: 'useDbLayer', data: { table: 'translations' } }]
+      errors: [{ messageId: 'useDbLayer' }, { messageId: 'removeTimestamps' }]
     },
     {
-      code: `async function dbFunc() {
-        await r.translations.insert(r, { updatedAt: r.now() })
-      }`,
+      code: `r.pool.run(
+          r
+            .table('assets')
+            .get(id)
+            .update(
+              {
+                certificateTemplateSupplementalAssets
+              },
+              { returnChanges: 'always' }
+            )('changes')
+            .nth(0)('new_val')
+        )`,
+      output: `r['assets'].insertAndReturnFirstRow(r, {
+  certificateTemplateSupplementalAssets
+});`,
       options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        await r.translations.insert(r, [{ updatedAt: r.now() }])
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        const item = { updatedAt: r.now() };
-        await r.translations.insert(r, [item])
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        const item = { updatedAt: r.now() };
-        await r.translations.insert(r, item)
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        const item = { updatedAt: r.now() };
-        await r.translations.insertAndReturnFirstRow(r, item)
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        const item = { updatedAt: r.now() };
-        await r.translations.updateAndReturnFirstRow(r, 'id', item)
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
-    },
-    {
-      code: `async function dbFunc() {
-        const item = { updatedAt: r.now() };
-        await r.translations.update(r, 'id', item)
-      }`,
-      options,
-      errors: [{ messageId: 'convertRethinkdbFunctions' }]
+      errors: [{ messageId: 'useDbLayer' }]
     }
   ]
 });

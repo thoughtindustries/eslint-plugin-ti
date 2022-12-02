@@ -22,6 +22,13 @@ ruleTester.run('use-db-layer', rule, {
   invalid: [
     {
       code: `async function dbFunc() {
+        await r.translations.insert(r, { updatedAt: r.literal() })
+      }`,
+      options,
+      errors: [{ messageId: 'convertRethinkdbFunctions' }]
+    },
+    {
+      code: `async function dbFunc() {
         await r.pool.run(
           r.table('translations').insert({ id: 'sso-block', bundle: uuidv5('oid', 'global-bundle') })
         );
@@ -50,8 +57,7 @@ ruleTester.run('use-db-layer', rule, {
       code: `r.pool.run(
           r
             .table('assets')
-            .get(id)
-            .update(
+            .insert(
               {
                 certificateTemplateSupplementalAssets
               },
@@ -62,6 +68,93 @@ ruleTester.run('use-db-layer', rule, {
       output: `r['assets'].insertAndReturnFirstRow(r, {
   certificateTemplateSupplementalAssets
 });`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `async function dbFunc() {
+        (await r.pool.run(r.table('assets').insert(
+          {
+            certificateTemplateSupplementalAssets
+          },
+          { returnChanges: 'always' }
+        ))).changes[0].new_val;
+      }`,
+      output: `async function dbFunc() {
+        await r['assets'].insertAndReturnFirstRow(r, {
+          certificateTemplateSupplementalAssets
+        });
+      }`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `async function dbFunc() {
+        const changes = (await r.pool.run(r.table('assets').insert(
+          {
+            certificateTemplateSupplementalAssets
+          },
+          { returnChanges: true }
+        ))).changes.map(change => change.new_val)
+      }`,
+      output: `async function dbFunc() {
+        const changes = await r['assets'].insert(r, {
+          certificateTemplateSupplementalAssets
+        });
+      }`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `async function dbFunc() {
+        await r.pool.run(r.table('assets').get('47e1a4e2-701a-4f1d-aa6b-55fed4343459'))
+      }`,
+      output: `async function dbFunc() {
+        await r['assets'].findById(r, '47e1a4e2-701a-4f1d-aa6b-55fed4343459');
+      }`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `r.pool.run(r.table('assets').get('47e1a4e2-701a-4f1d-aa6b-55fed4343459').update({
+        certificateTemplateSupplementalAssets
+      }))`,
+      output: `r['assets'].update(r, '47e1a4e2-701a-4f1d-aa6b-55fed4343459', {
+        certificateTemplateSupplementalAssets
+      });`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `r.pool.run(r.table('assets')
+        .get('47e1a4e2-701a-4f1d-aa6b-55fed4343459')
+        .update(
+          {
+            certificateTemplateSupplementalAssets
+          },
+          { returnChanges: 'always' }
+        )('changes').nth(0)('new_val')
+      );`,
+      output: `r['assets'].updateAndReturnFirstRow(r, '47e1a4e2-701a-4f1d-aa6b-55fed4343459', {
+  certificateTemplateSupplementalAssets
+});`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `async function dbFunc() {
+        (await r.pool.run(r.table('assets').get('47e1a4e2-701a-4f1d-aa6b-55fed4343459').update(
+          {
+            certificateTemplateSupplementalAssets
+          },
+          { returnChanges: 'always' }))
+        ).changes[0].new_val;
+      }`,
+      output: `async function dbFunc() {
+        r['assets'].updateAndReturnFirstRow(r, '47e1a4e2-701a-4f1d-aa6b-55fed4343459', {
+          certificateTemplateSupplementalAssets
+        });
+      }`,
       options,
       errors: [{ messageId: 'useDbLayer' }]
     }

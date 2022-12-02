@@ -17,11 +17,11 @@ ruleTester.run('run-indexer', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         let tableName = '';
         tableName = 'learningPaths';
 
-        yield r.pool.run(
+        await r.pool.run(
           r.table(tableName).update({ updatedAt: r.now() })
         );
       
@@ -30,8 +30,8 @@ ruleTester.run('run-indexer', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('skipThisTableSinceNotIndexed').update({})
         );
       }`,
@@ -40,9 +40,9 @@ ruleTester.run('run-indexer', rule, {
 
     // comment to disable next line
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line run-indexer
-        yield r.pool.run(
+        await r.pool.run(
           r.table('learningPaths').update({ updatedAt: r.now() })
         );
       }`,
@@ -58,10 +58,10 @@ ruleTester.run('run-indexer', rule, {
   ],
   invalid: [
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = { updatedAt: r.now() };
       
-        return yield r.pool.run(
+        return await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -72,12 +72,12 @@ ruleTester.run('run-indexer', rule, {
       errors: [{ messageId: 'missingIndexer', data: { table: 'learningPaths' } }]
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = { updatedAt: r.now() };
 
         learningPathIndexer.index();
       
-        return yield r.pool.run(
+        return await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -88,7 +88,7 @@ ruleTester.run('run-indexer', rule, {
       errors: [{ messageId: 'missingIndexer', data: { table: 'learningPaths' } }]
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         dbBatch.insert(r, 'learningPaths');
       }`,
       options,

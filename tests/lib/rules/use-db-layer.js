@@ -162,7 +162,7 @@ ruleTester.run('use-db-layer', rule, {
       code: `r.pool.run(
         r.table('courseGroups').get('47e1a4e2-701a-4f1d-aa6b-55fed4343459')('asset').default(null)
       );`,
-      output: `r['courseGroups'].getAttributesById(r, ['47e1a4e2-701a-4f1d-aa6b-55fed4343459'], ['asset'])?.[0]?.['asset'];`,
+      output: `r['courseGroups'].getAttributesByIds(r, ['47e1a4e2-701a-4f1d-aa6b-55fed4343459'], ['asset'])?.[0]?.['asset'];`,
       options,
       errors: [{ messageId: 'useDbLayer' }]
     }

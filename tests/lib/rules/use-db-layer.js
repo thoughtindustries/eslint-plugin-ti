@@ -1,6 +1,6 @@
 const rule = require('../../../lib/rules/use-db-layer');
 const RuleTester = require('eslint').RuleTester;
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 const options = [];
 
 ruleTester.run('use-db-layer', rule, {
@@ -155,6 +155,14 @@ ruleTester.run('use-db-layer', rule, {
           certificateTemplateSupplementalAssets
         });
       }`,
+      options,
+      errors: [{ messageId: 'useDbLayer' }]
+    },
+    {
+      code: `r.pool.run(
+        r.table('courseGroups').get('47e1a4e2-701a-4f1d-aa6b-55fed4343459')('asset').default(null)
+      );`,
+      output: `r['courseGroups'].getAttributesById(r, ['47e1a4e2-701a-4f1d-aa6b-55fed4343459'], ['asset'])?.[0]?.['asset'];`,
       options,
       errors: [{ messageId: 'useDbLayer' }]
     }

@@ -1,7 +1,7 @@
 const rule = require('../../../lib/rules/add-updated-at');
 const RuleTester = require('eslint').RuleTester;
 const path = require('path');
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 const indexerTestPath = `${path.resolve('tests/lib/rules/mocks/indexers/')}/`;
 const options = [{ indexerPattern: `${indexerTestPath}*_indexer.js`, limitToIndexedTables: true }];
 

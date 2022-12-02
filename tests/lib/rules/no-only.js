@@ -1,6 +1,6 @@
 const rule = require('../../../lib/rules/no-only');
 const RuleTester = require('eslint').RuleTester;
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 const options = [{}];
 
 ruleTester.run('no-only', rule, {

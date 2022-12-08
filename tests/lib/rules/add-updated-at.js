@@ -1,19 +1,19 @@
 const rule = require('../../../lib/rules/add-updated-at');
 const RuleTester = require('eslint').RuleTester;
 const path = require('path');
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 const indexerTestPath = `${path.resolve('tests/lib/rules/mocks/indexers/')}/`;
 const options = [{ indexerPattern: `${indexerTestPath}*_indexer.js`, limitToIndexedTables: true }];
 
 ruleTester.run('add-updated-at', rule, {
   valid: [
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = {
           updatedAt: r.now()
         };
       
-        const lp = yield r.pool.run(
+        const lp = await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -27,10 +27,10 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = { updatedAt: r.now() };
       
-        const lp = yield r.pool.run(
+        const lp = await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -44,8 +44,8 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
-        yield dbBatch.updateAll(
+      code: `async function dbFunc() {
+        await dbBatch.updateAll(
           r,
           'learningPaths',
           competencyAssessmentIds,
@@ -57,9 +57,9 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const variableTableName = 'learningPaths';
-        const lp = yield r.pool.run(
+        const lp = await r.pool.run(
           r.table(variableTableName).update({ updatedAt: r.now() })
         );
 
@@ -77,8 +77,8 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('learningPaths').update({ updatedAt: r.now() })
         );
       
@@ -87,8 +87,8 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('learningPaths').update({ updatedAt: r.now() })
         );
       
@@ -97,11 +97,11 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         let tableName = '';
         tableName = 'learningPaths';
 
-        yield r.pool.run(
+        await r.pool.run(
           r.table(tableName).update({ updatedAt: r.now() })
         );
       
@@ -110,15 +110,15 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('skipThisTableSinceNotIndexed').update({})
         );
       }`,
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `function dbFunc() {
         crypto.update();
       }`,
       options
@@ -126,11 +126,11 @@ ruleTester.run('add-updated-at', rule, {
 
     // comment to disable next line
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = {};
       
         // eslint-disable-next-line add-updated-at
-        const lp = yield r.pool.run(
+        const lp = await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -144,9 +144,9 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield dbBatch.updateAll(
+        await dbBatch.updateAll(
           r,
           'learningPaths',
           competencyAssessmentIds,
@@ -158,9 +158,9 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield dbBatch.updateAll(
+        await dbBatch.updateAll(
           r,
           'learningPaths',
           competencyAssessmentIds,
@@ -172,18 +172,18 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield r.pool.run(
+        await r.pool.run(
           r.table(variableTableName).update({ updatedAt: r.now() })
         );
       }`,
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield r.pool.run(
+        await r.pool.run(
           r.table(function() { return 'learningPaths'; }()).update({ updatedAt: r.now() })
         );
       }`,
@@ -197,9 +197,9 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield r.pool.run(
+        await r.pool.run(
           r.table('learningPaths').update()
         );
       
@@ -208,9 +208,9 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         // eslint-disable-next-line add-updated-at
-        yield r.pool.run(
+        await r.pool.run(
           r.table('learningPaths').update({})
         );
       
@@ -219,12 +219,12 @@ ruleTester.run('add-updated-at', rule, {
       options
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         let tableName = '';
         tableName = 'learningPaths';
 
         // eslint-disable-next-line add-updated-at
-        yield r.pool.run(
+        await r.pool.run(
           r.table(tableName).update({})
         );
       
@@ -235,10 +235,10 @@ ruleTester.run('add-updated-at', rule, {
   ],
   invalid: [
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         const newLearningPathAttrs = {};
       
-        const lp = yield r.pool.run(
+        const lp = await r.pool.run(
           r
             .table('learningPaths')
             .insert(newLearningPathAttrs, { returnChanges: 'always' })('changes')
@@ -258,8 +258,8 @@ ruleTester.run('add-updated-at', rule, {
       ]
     },
     {
-      code: `function* dbFunc() {
-        yield dbBatch.updateAll(
+      code: `async function dbFunc() {
+        await dbBatch.updateAll(
           r,
           'learningPaths',
           competencyAssessmentIds,
@@ -274,8 +274,8 @@ ruleTester.run('add-updated-at', rule, {
       ]
     },
     {
-      code: `function* dbFunc() {
-        yield dbBatch.updateAll(
+      code: `async function dbFunc() {
+        await dbBatch.updateAll(
           r,
           'learningPaths',
           competencyAssessmentIds,
@@ -290,8 +290,8 @@ ruleTester.run('add-updated-at', rule, {
       ]
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table(variableTableName).update({ updatedAt: r.now() })
         );
       }`,
@@ -299,8 +299,8 @@ ruleTester.run('add-updated-at', rule, {
       errors: [{ messageId: 'markedMissing', data: { type: 'update' } }]
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table(function() { return 'learningPaths'; }()).update({ updatedAt: r.now() })
         );
       }`,
@@ -322,8 +322,8 @@ ruleTester.run('add-updated-at', rule, {
       errors: [{ messageId: 'batchMarkedMissing', data: { type: 'insert' } }]
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('learningPaths').update()
         );
       
@@ -333,8 +333,8 @@ ruleTester.run('add-updated-at', rule, {
       errors: [{ messageId: 'missingUpdatedTable', data: { table: 'learningPaths' } }]
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('learningPaths').update({})
         );
       
@@ -344,11 +344,11 @@ ruleTester.run('add-updated-at', rule, {
       errors: [{ messageId: 'missingOnTable', data: { table: 'learningPaths' } }]
     },
     {
-      code: `function* dbFunc() {
+      code: `async function dbFunc() {
         let tableName = '';
         tableName = 'learningPaths';
 
-        yield r.pool.run(
+        await r.pool.run(
           r.table(tableName).update({})
         );
       
@@ -358,8 +358,8 @@ ruleTester.run('add-updated-at', rule, {
       errors: [{ messageId: 'missingOnTable', data: { table: 'learningPaths' } }]
     },
     {
-      code: `function* dbFunc() {
-        yield r.pool.run(
+      code: `async function dbFunc() {
+        await r.pool.run(
           r.table('skipThisTableSinceNotIndexed').update({})
         );
       }`,

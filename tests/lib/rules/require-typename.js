@@ -1,6 +1,6 @@
 const rule = require('../../../lib/rules/require-typename');
 const RuleTester = require('eslint').RuleTester;
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2021 } });
 const options = [{}];
 
 ruleTester.run('require-typename', rule, {

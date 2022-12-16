@@ -29,6 +29,13 @@ ruleTester.run('id-helper', rule, {
         });
       }`,
       options
+    },
+    {
+      code: `module.exports = {
+        insert: base.insert('pages'),
+        insertAndReturnFirstRow: base.insertAndReturnFirstRow('pages')
+      }`,
+      options
     }
   ],
   invalid: [

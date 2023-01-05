@@ -49,6 +49,19 @@ ruleTester.run('add-updated-at-on-duplicate', rule, {
         });
       }`,
       options
+    },
+    {
+      code: `function insertOrUpdate(db, expirations) {
+        return wrapper({
+          postgres: async () => {
+            const model = postgresBase.getModel(db.postgres, 'someTable');
+            await model.bulkCreate(expirations, {
+              updateOnDuplicate: Object.keys(expirations[0])
+            });
+          }
+        });
+      }`,
+      options
     }
   ],
   invalid: [

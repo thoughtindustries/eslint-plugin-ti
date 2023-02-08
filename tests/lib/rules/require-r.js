@@ -13,7 +13,7 @@ ruleTester.run('require-r', rule, {
     },
     {
       code: `async function getUsers(slug) {
-        const users = await this.r.users.findBySlug(r, slug);
+        const users = await this.r.users.findBySlug(this.r, slug);
       }`,
       options
     },

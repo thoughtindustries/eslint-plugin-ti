@@ -16,6 +16,12 @@ ruleTester.run('require-r', rule, {
         const users = await this.r.users.findBySlug(r, slug);
       }`,
       options
+    },
+    {
+      code: `async function getUsers(slug) {
+        notARepoFunction.insert(slug);
+      }`,
+      options
     }
   ],
   invalid: [

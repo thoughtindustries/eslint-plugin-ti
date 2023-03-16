@@ -41,6 +41,20 @@ ruleTester.run('add-updated-at-on-duplicate', rule, {
       code: `function update(db, data) {
         return wrapper({
           postgres: async () => {
+            const result = await postgresBase
+            .getModel(db.postgres, tableName)
+            .bulkCreate(newData, ops);
+            
+            return result;
+          }
+        });
+      }`,
+      options
+    },
+    {
+      code: `function update(db, data) {
+        return wrapper({
+          postgres: async () => {
             const model = postgresBase.getModel(db.postgres, 'table');
             const results = await model.bulkCreate(data, { some: 'prop' });
       
